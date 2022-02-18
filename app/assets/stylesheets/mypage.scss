@@ -1,0 +1,47 @@
+
+.main-container{
+    margin-left: 5%;
+    padding-top: 10px;
+}
+
+.user{
+    font-size: 50px;
+}
+h3{
+    margin-top: 50px;
+}
+.record{
+    margin: 20px 0 20px 0px;
+    width: 10%;
+    
+    border-bottom: solid #bae8e8;
+    display: flex;
+    
+    flex-direction: column;
+    margin-left: 5%;
+}
+.like{
+    border-bottom: solid#bae8e8;
+    width: 20%;
+    margin-left: 5%;
+}
+.user2{
+    margin-top: 10px;
+   
+}
+.study_time{
+    margin-left: 5%;
+}
+.progress{
+    width:40%;
+    height:30px;
+    border-radius: 20px;
+    margin-left: 5%;
+    margin-bottom: 5px;
+    
+}
+.progress-bar{
+    color:rgb(243, 81, 81);
+    font-weight: 1000;
+    font-size: large;
+}

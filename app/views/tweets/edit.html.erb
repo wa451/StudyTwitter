@@ -1,0 +1,22 @@
+<%= stylesheet_link_tag 'edit', :media => "all" %>
+<%= form_for @tweet do |f| %>
+  <div class="main">
+    <div class="field">
+      <div class="subject">
+        <%= f.label :教科 %>
+        <%= f.text_field :subject, :size => 30 %>    
+      </div>
+      <div class="time">
+        <%= f.label :時間 %>
+        <%= f.number_field :time, :size => 30, :placeholder =>"半角で入力してください"  %>
+      </div> 
+      <div class="image">
+        <%= f.label :画像 %>
+        <%= f.file_field :image %>
+      </div>
+      <div class="submit">
+        <input type="submit" value="編集する" class="example2">
+      </div>
+    </div>
+  </div>
+<% end %>

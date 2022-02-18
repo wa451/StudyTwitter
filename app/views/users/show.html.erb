@@ -1,0 +1,59 @@
+<%= stylesheet_link_tag 'mypage', :media => "all" %>
+
+<div class="background">
+  <div class="main-container">
+    <div class="user">
+      <%= image_tag @user.image_url, size: "70x70" if @user.image? %>
+      <%= @user.name %>
+    </div>
+    <p>自己紹介: <%= @user.profile %></p>
+
+    <% if user_signed_in? %>
+      <% if current_user.id == @user.id %>
+        <%= link_to "プロフィールを編集する", edit_user_registration_path %>
+      <% end %>
+    <% end %>
+
+    <h3>勉強の記録</h3>
+    <% @user.tweets.each do |t| %>
+      <div class="record">
+        <div>
+          <a href="/tweets/<%= t.id %>"><%= t.subject %></a>
+          <a href="/tweets/<%= t.id %>"><%= t.time %></a>
+        </div>
+      </div>
+    <% end %>
+
+    <h3>ユーザーがいいねした投稿一覧</h3>
+    <% @user.liked_tweets.each do |t| %>
+    <div class="like">
+      <div class="user2">
+        <%= image_tag t.user.image_url, size: "25x20" if t.user.image? %>
+        <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+      </div>
+              
+      <div class="left-container">教科：<%= t.subject %></div>
+      <div class="left-container">時間：<%= t.time %>分</div>
+      <div class="image"><%= image_tag t.image_url, size: "100x100" if t.image? %></div>
+      <br>
+    </div>
+    <% end %>
+    <h3>経験値</h3>
+
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=@user_exp%>%">　<%=@user.level%>レベル</div>
+    </div>
+    <p class="study_time">総勉強時間：<%=@user.sum%>分</p>
+  </div>
+  
+  
+  <div>
+    <%= column_chart @user.tweets.pluck(:created_date, :time) %>
+  </div>
+
+  
+  
+    
+  
+</div>
+

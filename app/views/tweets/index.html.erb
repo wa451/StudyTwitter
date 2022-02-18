@@ -1,0 +1,89 @@
+<%= stylesheet_link_tag 'index', :media => "all" %>
+<%= page_entries_info @tweets %>
+<div class="tweets-container">
+
+  <div class="leftright">
+    <div class="left-tweets"> 
+     
+      <%= form_tag({controller:"tweets",action:"index"}, method: :get) do %>
+        <%= text_field_tag :search %>
+        <%= submit_tag '検索する', class:"btn-square-shadow"%>
+      <% end %>
+      <br>
+      <%= form_tag({controller:"tweets",action:"index"}, method: :get) do %>
+        <%= select_tag("search", options_for_select([['---並べ替え選択---', ''], ['最新の投稿', 'newtweet'], ['古い投稿', 'oldtweet'], ['いいね順', 'liketweet']])) %>
+        <%= submit_tag '並べ替える', class:"btn-square-shadow"  %>
+      <% end %>
+    </div>
+
+    <div class="right-tweets"> 
+  
+      <%= link_to "投稿", new_tweet_path, class:"btn btn-success" %>
+
+    </div>
+  </div>
+
+
+  <% @tweets.each do |t| %>
+      <div class="tweet">
+      
+        <div class="main-box">
+          <div class="user">
+            <%= image_tag t.user.image_url, size: "25x25" if t.user.image? %>
+            <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+          </div>
+          <div class="m">
+            <div class="left-container">
+              時間：<%= t.time %>分
+              <br>
+              教科：<%= t.subject %>
+            </div>
+            <div class="image">
+               <% if t.image.present? %>
+                <%= image_tag t.image.url, size: "100x100"%>
+              <% else %>
+                <%= image_tag 'No_Image.jpg', size: "100x100"%>
+              <% end %>
+            </div>
+          </div>
+          <% if user_signed_in? %>
+            <% if current_user.already_liked?(t) %>
+                <%= link_to tweet_like_path(id: t.id, tweet_id: t.id), method: :delete do %>
+                    <i class="fas fa-heart"></i><%= t.likes.count %>
+                <% end %>
+            <% else %>
+                <%= link_to tweet_likes_path(id: t.id, tweet_id: t.id), method: :post do %>
+                    <i class="far fa-heart"></i><%= t.likes.count %>
+                <% end %>
+            <% end %>
+          <% else %>
+            <i class="far fa-heart"></i><%= t.likes.count %>
+          <% end %>
+    
+          <div class="right-container">
+            <%= link_to "詳細", tweet_path(t.id) %>
+            <% if user_signed_in? %>
+              <% if current_user.id == t.user_id %>  
+                <%= link_to "編集", edit_tweet_path(t.id) %>
+                <%= link_to "削除", tweet_path(t.id), method: :delete %>
+              <% elsif current_user.admin? %>
+                <%= link_to "管理者用編集", edit_tweet_path(t.id) %>
+                <%= link_to "管理者用削除", tweet_path(t.id), method: :delete %>
+              <% end %> 
+            <% end %>
+          </div>
+          <p class="time">投稿日時　<%=  t.created_at.to_s(:datetime_jp)%></p>
+        </div>
+          
+      </div>
+    <% end %> 
+    <% if user_signed_in? %>
+      <% if current_user.admin? %>
+        <%= link_to "秘密のページへ", users_path %>
+      <% end %>
+    <% end %>   
+</div>
+
+<%= paginate @tweets %>
+
+
