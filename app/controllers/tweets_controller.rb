@@ -1,8 +1,9 @@
 class TweetsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :index]
+  layout "main2"
     def index
       
-      if params[:search] == ''
+      if params[:search] == '' || params[:search] == nil
         @tweets= Tweet.all.order(id: "DESC").page(params[:page]).per(10)
       elsif params[:search] == 'newtweet'
         @tweets= Tweet.all.order(id: "DESC").page(params[:page]).per(10)
@@ -12,8 +13,9 @@ class TweetsController < ApplicationController
         @tweets= @tweets = Tweet.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.page(params[:page]).per(10)
       else
         search = params[:search]
-        @tweets = Tweet.joins(:user).where("subject LIKE ? OR name LIKE ?", "%#{search}%", "%#{search}%").page(params[:page]).per(10)
+        @tweets = Tweet.joins(:user).where("subject LIKE ? OR name LIKE ?", "%#{search}%", "%#{search}%").order(id: "DESC").page(params[:page]).per(10)
       end
+      
     end
      
     def new

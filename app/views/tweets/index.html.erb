@@ -1,8 +1,6 @@
 <%= stylesheet_link_tag 'index', :media => "all" %>
 <%= page_entries_info @tweets %>
 <div class="tweets-container">
-
-  <div class="leftright">
     <div class="left-tweets"> 
      
       <%= form_tag({controller:"tweets",action:"index"}, method: :get) do %>
@@ -16,51 +14,83 @@
       <% end %>
     </div>
 
-    <div class="right-tweets"> 
-  
-      <%= link_to "投稿", new_tweet_path, class:"btn btn-success" %>
-
-    </div>
-  </div>
 
 
-  <% @tweets.each do |t| %>
+      <% @tweets.each do |t| %>
       <div class="tweet">
       
-        <div class="main-box">
+        <div class="left-container">
           <div class="user">
             <%= image_tag t.user.image_url, size: "25x25" if t.user.image? %>
             <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+            <%case t.user.tweets.all.sum(:time)/60 %>
+            <%when 0..19 then%>
+              <%= image_tag 'さくらんぼの無料アイコン.svg', size: "20x20"%>
+            <%when 20..39 then%>
+              <%= image_tag 'スイカの無料アイコン.svg', size: "20x20"%>
+            <%when 40..59 then%>
+              <%= image_tag 'バナナの無料アイコン.svg', size: "20x20"%>
+            <%when 60..79 then%>
+              <%= image_tag '葡萄の無料アイコン.svg', size: "20x20"%>
+            <%when 80..99 then%>
+              <%= image_tag "テカテカしたリンゴのイラスト.svg", size: "20x20"%>
+
+            <%when 100..119 then%>
+              <%= image_tag 'さくらんぼの無料アイコン (2).svg', size: "20x20"%>
+            <%when 120..139 then%>
+              <%= image_tag 'スイカの無料アイコン (2).svg', size: "20x20"%>
+            <%when 140..159 then%>
+              <%= image_tag 'バナナの無料アイコン (2).svg', size: "20x20"%>
+            <%when 160..179 then%>
+              <%= image_tag '葡萄の無料アイコン (2).svg', size: "20x20"%>
+            <%when 180..199 then%>
+              <%= image_tag "テカテカしたリンゴのイラスト (2).svg", size: "20x20"%>
+
+            <%when 200..219 then%>
+              <%= image_tag 'さくらんぼの無料アイコン (3).svg', size: "20x20"%>
+            <%when 220..239 then%>
+              <%= image_tag 'スイカの無料アイコン (3).svg', size: "20x20"%>
+            <%when 240..259 then%>
+              <%= image_tag 'バナナの無料アイコン (3).svg', size: "20x20"%>
+            <%when 260..279 then%>
+              <%= image_tag '葡萄の無料アイコン (3).svg', size: "20x20"%>
+            <%when 280..299 then%>
+              <%= image_tag "テカテカしたリンゴのイラスト (3).svg", size: "20x20"%>
+            <%else%>
+              <i class="fas fa-crown"></i>
+            <%end%>
           </div>
-          <div class="m">
-            <div class="left-container">
-              時間：<%= t.time %>分
-              <br>
-              教科：<%= t.subject %>
-            </div>
-            <div class="image">
-               <% if t.image.present? %>
-                <%= image_tag t.image.url, size: "100x100"%>
-              <% else %>
-                <%= image_tag 'No_Image.jpg', size: "100x100"%>
-              <% end %>
-            </div>
-          </div>
-          <% if user_signed_in? %>
-            <% if current_user.already_liked?(t) %>
-                <%= link_to tweet_like_path(id: t.id, tweet_id: t.id), method: :delete do %>
-                    <i class="fas fa-heart"></i><%= t.likes.count %>
-                <% end %>
+          <div class="image">
+              <% if t.image.present? %>
+              <%= image_tag t.image.url, size: "150x150"%>
             <% else %>
-                <%= link_to tweet_likes_path(id: t.id, tweet_id: t.id), method: :post do %>
-                    <i class="far fa-heart"></i><%= t.likes.count %>
-                <% end %>
+              <%= image_tag 'No_Image.jpg', size: "150x150"%>
             <% end %>
-          <% else %>
-            <i class="far fa-heart"></i><%= t.likes.count %>
-          <% end %>
+          </div>
+        </div>
+        <div class="right-container">
+          <div class="contents">
+            <i class="fas fa-book fa-fw"></i><%= t.subject %>
+            <br>
+            <i class="fas fa-clock fa-fw"></i><%= t.time %>分
+          </div>
+          <div class="like">
+            <% if user_signed_in? %>
+              <% if current_user.already_liked?(t) %>
+                  <%= link_to tweet_like_path(id: t.id, tweet_id: t.id), method: :delete do %>
+                      <i class="fas fa-heart"></i><%= t.likes.count %>
+                  <% end %>
+              <% else %>
+                  <%= link_to tweet_likes_path(id: t.id, tweet_id: t.id), method: :post do %>
+                      <i class="far fa-heart"></i><%= t.likes.count %>
+                  <% end %>
+              <% end %>
+            <% else %>
+              <i class="far fa-heart"></i><%= t.likes.count %>
+            <% end %>
+          </div>
     
-          <div class="right-container">
+          <div class="others">
             <%= link_to "詳細", tweet_path(t.id) %>
             <% if user_signed_in? %>
               <% if current_user.id == t.user_id %>  
@@ -74,16 +104,16 @@
           </div>
           <p class="time">投稿日時　<%=  t.created_at.to_s(:datetime_jp)%></p>
         </div>
-          
       </div>
     <% end %> 
+
     <% if user_signed_in? %>
       <% if current_user.admin? %>
         <%= link_to "秘密のページへ", users_path %>
       <% end %>
     <% end %>   
+  <%= paginate @tweets %>
 </div>
 
-<%= paginate @tweets %>
 
 

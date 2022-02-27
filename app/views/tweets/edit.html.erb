@@ -1,22 +1,31 @@
 <%= stylesheet_link_tag 'edit', :media => "all" %>
+<div class="background">
 <%= form_for @tweet do |f| %>
   <div class="main">
     <div class="field">
-      <div class="subject">
-        <%= f.label :教科 %>
-        <%= f.text_field :subject, :size => 30 %>    
+      <div class="subject">        
+        <%= f.label :教科, class:"form-image-label" do %>
+          <div><i class="fas fa-book fa-fw"></i>教科　　　</div> 
+          <div><%= f.text_field :subject, class:"form" %></div> 
+        <% end %>   
       </div>
       <div class="time">
-        <%= f.label :時間 %>
-        <%= f.number_field :time, :size => 30, :placeholder =>"半角で入力してください"  %>
+        <%= f.label :time, class:"form-image-label" do %>
+          <div><i class="fas fa-clock fa-fw"></i>時間（分）</div> 
+            <div><%= f.number_field :time, class:"form", :placeholder =>"半角で入力してください"  %></div> 
+        <% end %>
       </div> 
       <div class="image">
-        <%= f.label :画像 %>
-        <%= f.file_field :image %>
+        <%= f.label :image, class:"form-image-label" do %>
+            <%= f.file_field :image, class:"message-hidden" %>
+        <% end %>
       </div>
       <div class="submit">
-        <input type="submit" value="編集する" class="example2">
+        <%= button_tag :type => "submit", :class =>"btn btn-default btn-s-md" do %>
+            <i class="fas fa-pen fa-lg"></i>編集する
+        <% end %>
       </div>
     </div>
   </div>
 <% end %>
+</div>

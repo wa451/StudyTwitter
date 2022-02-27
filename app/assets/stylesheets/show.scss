@@ -1,15 +1,25 @@
 .main-container{
-    margin-left: 5%;
-    padding-top: 10px;
+    background-color: #f9f4ef;
+    min-height:100vh;
 }
 .user{
     font-size: 50px;
+    margin-left: 5%;
+    padding-top: 80px;
 }
 .tweet{
+    margin-left: 5%;
+    padding-top: 80px;
     margin: 1% 0 2% 5%;
     width: 70%;
 }
 .like{
+    margin-left: 5%;
+    padding-top: 80px;
     margin-bottom: 40px;
-    
+}
+.comment-wrapper{
+    margin-left: 5%;
+    padding-top: 80px;
+    margin-bottom: 40px;
 }

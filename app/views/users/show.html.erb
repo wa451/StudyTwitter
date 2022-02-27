@@ -3,57 +3,131 @@
 <div class="background">
   <div class="main-container">
     <div class="user">
-      <%= image_tag @user.image_url, size: "70x70" if @user.image? %>
-      <%= @user.name %>
-    </div>
-    <p>自己紹介: <%= @user.profile %></p>
+      <div class="username">
+        <%= image_tag @user.image_url, size: "70x70" if @user.image? %>
+        <%= @user.name %>
+        <%case @user.level %>
+        <%when 0..19 then%>
+          <%= image_tag 'さくらんぼの無料アイコン.svg', size: "50x50"%>
+        <%when 20..39 then%>
+          <%= image_tag 'スイカの無料アイコン.svg', size: "50x50"%>
+        <%when 40..59 then%>
+          <%= image_tag 'バナナの無料アイコン.svg', size: "50x50"%>
+        <%when 60..79 then%>
+          <%= image_tag '葡萄の無料アイコン.svg', size: "50x50"%>
+        <%when 80..99 then%>
+          <%= image_tag "テカテカしたリンゴのイラスト.svg", size: "50x50"%>
 
-    <% if user_signed_in? %>
-      <% if current_user.id == @user.id %>
-        <%= link_to "プロフィールを編集する", edit_user_registration_path %>
+        <%when 100..119 then%>
+          <%= image_tag 'さくらんぼの無料アイコン (2).svg', size: "50x50"%>
+        <%when 120..139 then%>
+          <%= image_tag 'スイカの無料アイコン (2).svg', size: "50x50"%>
+        <%when 140..159 then%>
+          <%= image_tag 'バナナの無料アイコン (2).svg', size: "50x50"%>
+        <%when 160..179 then%>
+          <%= image_tag '葡萄の無料アイコン (2).svg', size: "50x50"%>
+        <%when 180..199 then%>
+          <%= image_tag "テカテカしたリンゴのイラスト (2).svg", size: "50x50"%>
+
+        <%when 200..219 then%>
+          <%= image_tag 'さくらんぼの無料アイコン (3).svg', size: "50x50"%>
+        <%when 220..239 then%>
+          <%= image_tag 'スイカの無料アイコン (3).svg', size: "50x50"%>
+        <%when 240..259 then%>
+          <%= image_tag 'バナナの無料アイコン (3).svg', size: "50x50"%>
+        <%when 260..279 then%>
+          <%= image_tag '葡萄の無料アイコン (3).svg', size: "50x50"%>
+        <%when 280..299 then%>
+          <%= image_tag "テカテカしたリンゴのイラスト (3).svg", size: "50x50"%>
+        <%else%>
+          <i class="fas fa-crown"></i>
+        <%end%>
+      </div>
+      <p>自己紹介: <%= @user.profile %></p>
+      
+
+      <% if user_signed_in? %>
+        <% if current_user.id == @user.id %>
+          <%= link_to "プロフィールを編集する", edit_user_registration_path %>
+        <% end %>
       <% end %>
-    <% end %>
 
-    <h3>勉強の記録</h3>
-    <% @user.tweets.each do |t| %>
-      <div class="record">
-        <div>
-          <a href="/tweets/<%= t.id %>"><%= t.subject %></a>
-          <a href="/tweets/<%= t.id %>"><%= t.time %></a>
-        </div>
+      <h3>経験値</h3>
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=@user_exp%>%">　<%=@user.level%>レベル</div>
       </div>
-    <% end %>
-
-    <h3>ユーザーがいいねした投稿一覧</h3>
-    <% @user.liked_tweets.each do |t| %>
-    <div class="like">
-      <div class="user2">
-        <%= image_tag t.user.image_url, size: "25x20" if t.user.image? %>
-        <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+      <p class="study_time">総勉強時間：<%=@user.sum%>分</p>
       </div>
-              
-      <div class="left-container">教科：<%= t.subject %></div>
-      <div class="left-container">時間：<%= t.time %>分</div>
-      <div class="image"><%= image_tag t.image_url, size: "100x100" if t.image? %></div>
-      <br>
-    </div>
-    <% end %>
-    <h3>経験値</h3>
 
-    <div class="progress">
-      <div class="progress-bar progress-bar-striped progress-bar-animated"  role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=@user_exp%>%">　<%=@user.level%>レベル</div>
-    </div>
-    <p class="study_time">総勉強時間：<%=@user.sum%>分</p>
-  </div>
-  
-  
-  <div>
-    <%= column_chart @user.tweets.pluck(:created_date, :time) %>
-  </div>
-
-  
-  
+    <div class="graph">
+    <canvas id="myChart2"></canvas>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+      <script> 
+      var ctx = document.getElementById("myChart2").getContext('2d');
+      var myChart2 = new Chart(ctx, {
+          type: 'bar',                      
+          data: {
+              labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+              datasets: [{
+                  label: "勉強時間（分）",
+                  data: [<%= @six_days_ago_tweet.sum(:time) %>, <%= @five_days_ago_tweet.sum(:time) %>, <%= @four_days_ago_tweet.sum(:time) %>, <%= @three_days_ago_tweet.sum(:time) %>, <%= @two_days_ago_tweet.sum(:time) %>, <%= @yesterday_tweet.sum(:time) %>, <%= @today_tweet.sum(:time)%>],
+                  backgroundColor: 'rgba(255, 80, 120, 1.0)',
+                  borderColor: 'rgba(255, 80, 120, 1.0)',
+                  fill: false
+              }]
+          },
+      });
+      </script>
+      </div>
+  </div>  
     
-  
-</div>
+  <div class="select">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">グラフ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">勉強の記録</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">いいねした投稿</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active graph" id="home" role="tabpanel" aria-labelledby="home-tab">
+      <%= pie_chart @user.tweets.group(:subject).sum(:time) %>
+    </div>
 
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <div class="index">
+        <% @user.tweets.each do |t| %>
+          <div class="record">
+            <div>
+              <a href="/tweets/<%= t.id %>"><%= t.subject %></a>
+              <a href="/tweets/<%= t.id %>"><%= t.time %>分</a>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="index">
+        <% @user.liked_tweets.each do |t| %>
+          <div class="like">
+            <div class="user2">
+              <%= image_tag t.user.image_url, size: "25x20" if t.user.image? %>
+              <a href="/users/<%= t.user.id %>"><%= t.user.name %></a>
+            </div>
+                    
+            <br>
+            
+            <div class="left-container"><i class="fas fa-book fa-fw"></i><%= t.subject %></div>
+            <div class="left-container"><i class="fas fa-clock fa-fw"></i><%= t.time %>分</div>
+            <div class="image"><%= image_tag t.image_url, size: "100x100" if t.image? %></div>
+            <br>
+          </div>
+      <% end %>
+      </div>
+    </div>
+</div>

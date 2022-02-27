@@ -59,6 +59,8 @@ gem 'cloudinary'
 gem 'dotenv-rails'
 gem 'chartkick'
 gem 'kaminari'
+gem 'groupdate'
+gem 'chart-js-rails', '~> 0.1.4'
 
 group :production do
   gem 'pg'

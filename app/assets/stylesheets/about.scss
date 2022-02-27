@@ -1,0 +1,42 @@
+.background{
+    min-height:100vh;
+    padding-top: 100px;
+    background-color: #f9f4ef;
+}
+.main{
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-around;
+}
+h4{
+    margin-left: 5%;
+}
+p{
+    font-size: large;
+    margin-top: 30px;
+}
+img{
+    margin-bottom: 70px;
+}
+@media screen and (max-width:480px) {
+    .background{
+        min-height:100vh;
+        padding-top: 100px;
+        background-color: #f9f4ef;
+    }
+    .main{
+        margin-left: 5%;
+        display: flex;
+        justify-content: space-around;
+    }
+    h4{
+        margin-left: 5%;
+    }
+    p{
+        font-size: small;
+        margin-top: 30px;
+    }
+    img{
+        margin-bottom: 70px;
+    }
+}

@@ -1,27 +1,54 @@
-
-.main-container{
-    margin-left: 5%;
-    padding-top: 10px;
+.background{
+    background-color: #f9f4ef;
+    min-height:100vh;
 }
-
+.main-container{
+    margin-left: 13%;
+    margin-right: 13%;
+    padding-top: 100px;
+    display: flex;
+    justify-content: space-around;
+}
 .user{
+    display: inline;
+    width:50%
+}
+.username{
     font-size: 50px;
+}
+.graph{
+    width:50%;
 }
 h3{
     margin-top: 50px;
+}
+.select{
+    margin:20px;
+    padding: 20px;
+}
+.nav-tabs{
+    display: flex;
+    justify-content: space-around;
+    background-color: #f9f4ef;
+}
+.nav-link{
+    text-align: center;
+}
+.index{
+    display: flex;    
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 .record{
     margin: 20px 0 20px 0px;
     width: 10%;
     
-    border-bottom: solid #bae8e8;
-    display: flex;
-    
-    flex-direction: column;
+    border-bottom: solid 2px #020826;
     margin-left: 5%;
 }
 .like{
-    border-bottom: solid#bae8e8;
+    border-bottom: solid 2px #020826;
     width: 20%;
     margin-left: 5%;
 }
@@ -33,7 +60,7 @@ h3{
     margin-left: 5%;
 }
 .progress{
-    width:40%;
+    width:80%;
     height:30px;
     border-radius: 20px;
     margin-left: 5%;
@@ -44,4 +71,76 @@ h3{
     color:rgb(243, 81, 81);
     font-weight: 1000;
     font-size: large;
+}
+.graph{
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width:480px) {
+    .main-container{
+        margin-left: 5%;
+        padding-top: 80px;
+        display: flex;
+        flex-direction: column;
+    }
+    .user{
+        width:90%;
+    }
+    .user p{
+        font-size: small;
+    }
+    .user a{
+        font-size: small;
+    }
+    h3{
+        margin-top: 50px;
+        font-size: large;
+    }
+    .nav-tabs{
+        display: flex;
+        justify-content: space-around;
+    }
+    .nav-link{
+        text-align: center;
+    }
+    .index{
+        display: flex;    
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .record{
+        margin: 20px 0;
+        width: 40%;
+        border-bottom: solid 2px #020826;
+    }
+    .like{
+        margin: 20px 0;
+        border-bottom: solid 3px #bec3cc;
+        width: 70%;
+    }
+    .user2{
+        margin-top: 10px;
+       
+    }
+    .study_time{
+        margin-left: 5%;
+    }
+    .progress{
+        width:90%;
+        height:30px;
+        border-radius: 20px;
+        margin-left: 5%;
+        margin-bottom: 5px;
+        
+    }
+    .progress-bar{
+        color:rgb(243, 81, 81);
+        font-weight: 1000;
+        font-size: large;
+    }
+    .graph{
+        width:90%;
+    }
 }
