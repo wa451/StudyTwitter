@@ -10,7 +10,8 @@ class TweetsController < ApplicationController
       elsif params[:search] == 'oldtweet'
         @tweets= Tweet.all.page(params[:page]).per(10)
       elsif params[:search] == 'liketweet'
-        @tweets= @tweets = Tweet.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}.page(params[:page]).per(10)
+        tweets = Tweet.includes(:liked_users).sort {|a,b| b.liked_users.size <=> a.liked_users.size}
+        @tweets= Kaminari.paginate_array(tweets).page(params[:page]).per(10)
       else
         search = params[:search]
         @tweets = Tweet.joins(:user).where("subject LIKE ? OR name LIKE ?", "%#{search}%", "%#{search}%").order(id: "DESC").page(params[:page]).per(10)
